@@ -1,4 +1,9 @@
+using Carter;
+using Shared.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
 
 builder.Services.AddCatalogModule(builder.Configuration).
                 AddOrderingModule(builder.Configuration).
@@ -8,13 +13,6 @@ var app = builder.Build();
 
 app.UseCatalogModule().UseOrderingModule().UseBasketModule();
 
-//app.UseStaticFiles();
-//app.UseRouting();   
-//app.UseAuthentication();
-//app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers();
-//});
+app.MapCarter();
 
 app.Run();

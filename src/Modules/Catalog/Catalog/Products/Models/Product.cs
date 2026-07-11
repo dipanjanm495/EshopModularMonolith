@@ -36,7 +36,6 @@ namespace Catalog.Products.Models
             Description = description;
             Category = category;
             ImageFile = imageFile;
-            Price = price;
             LastModified = DateTime.UtcNow;
 
 
