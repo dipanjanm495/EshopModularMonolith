@@ -1,10 +1,12 @@
 ﻿using Catalog.Data;
 using Catalog.Data.Seed;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Behaviours;
 using Shared.Data;
 using Shared.Data.Interceptors;
 using Shared.Data.Seed;
@@ -18,7 +20,12 @@ namespace Catalog
         {
             //services.AddScoped<IProductRepository, ProductRepository>();
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg => {
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+                });
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             var connectionString = configuration.GetConnectionString("DatabaseConnection");
 
