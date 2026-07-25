@@ -29,12 +29,18 @@ namespace Shared.Exceptions.Handler
                     exception.GetType().Name,
                     context.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
-                ArgumentException =>
+                ArgumentNullException =>
                 (
                     exception.Message,
                     exception.GetType().Name,
                     context.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
+                ArgumentException =>
+                (
+                    exception.Message,
+                    exception.GetType().Name,
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest
+                ),  
                 KeyNotFoundException =>
                 (
                     exception.Message,
