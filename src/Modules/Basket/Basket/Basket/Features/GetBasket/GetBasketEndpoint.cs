@@ -4,19 +4,20 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace Basket.Basket.Features.GetBasket
 {
     public record GetBasketResponse(
-        ShoppingCartDto ShoppingCartDto
+        ShoppingCartDto ShoppingCart
     );
 
     public class GetBasketEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/basket/{username}", async (string username, ISender sender) =>
+            app.MapGet("/basket/{username}", async ([FromRoute]string username, ISender sender) =>
             {
                 var query = new GetBasketQuery(username);
                 var result = await sender.Send(query);

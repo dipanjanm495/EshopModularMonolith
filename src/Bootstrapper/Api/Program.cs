@@ -1,11 +1,21 @@
 using Carter;
+using FluentValidation;
 using Serilog;
+using Shared.Behaviours;
 using Shared.Exceptions.Handler;
 using Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
+var catalogAssembly = typeof(CatalogModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
+
+builder.Services.AddCarterWithAssemblies(catalogAssembly, basketAssembly);
+
+builder.Services.AddMediatRWithAssemblies(catalogAssembly, basketAssembly);
+
+builder.Services.AddValidatorsFromAssemblies([basketAssembly,catalogAssembly]);
+
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 

@@ -34,7 +34,7 @@ namespace Basket.Basket.Features.CreateBasket
 
         private ShoppingCart CreateNewBasket(ShoppingCartDto shoppingCart)
         {
-            var newBasket = ShoppingCart.Create(shoppingCart.Id, shoppingCart.UserName);
+            var newBasket = ShoppingCart.Create(new Guid(), shoppingCart.UserName);
 
             foreach (var item in shoppingCart.Items)
             {
