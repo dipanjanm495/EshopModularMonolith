@@ -1,4 +1,5 @@
 ﻿using Basket.Data;
+using Basket.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using Shared.CQRS;
 
@@ -13,17 +14,11 @@ namespace Basket.Basket.Features.DeleteBasket
         bool IsSuccess
     );
 
-    internal class DeleteBasketHandler(BasketDbContext dbContext) : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
+    internal class DeleteBasketHandler(IBasketRepository basketRepository) : ICommandHandler<DeleteBasketCommand, DeleteBasketResult>
     {
         public async Task<DeleteBasketResult> Handle(DeleteBasketCommand request, CancellationToken cancellationToken)
         {
-            var basket = await dbContext.ShoppingCarts.SingleOrDefaultAsync(x=>x.Username.Equals(request.UserName),cancellationToken);
-            if (basket == null)
-            {
-               throw new ArgumentNullException(request.UserName);
-            }
-            dbContext.ShoppingCarts.Remove(basket);
-            await dbContext.SaveChangesAsync();
+            var basket = await basketRepository.DeleteBasket(request.UserName, cancellationToken);
             return new DeleteBasketResult(true);
         }
     }

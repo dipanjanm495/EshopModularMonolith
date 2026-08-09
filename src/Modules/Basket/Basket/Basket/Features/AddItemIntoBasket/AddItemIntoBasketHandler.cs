@@ -1,5 +1,6 @@
 ﻿using Basket.Basket.Dtos;
 using Basket.Data;
+using Basket.Data.Repository;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Shared.CQRS;
@@ -31,17 +32,15 @@ namespace Basket.Basket.Features.AddItemIntoBasket
         }
     }
 
-    internal class AddItemIntoBasketHandler(BasketDbContext basketDbContext) : ICommandHandler<AddItemIntoBasketCommand, AddItemIntoBasketResult>
+    internal class AddItemIntoBasketHandler(IBasketRepository basketRepository) : ICommandHandler<AddItemIntoBasketCommand, AddItemIntoBasketResult>
     {
         public async Task<AddItemIntoBasketResult> Handle(AddItemIntoBasketCommand request, CancellationToken cancellationToken)
         {
-            var shoppingCart =await basketDbContext.ShoppingCarts.
-                Include(x => x.Items).
-                SingleOrDefaultAsync(x => x.Username == request.UserName,cancellationToken);
+            var shoppingCart = await basketRepository.GetBasket(request.UserName,false, cancellationToken);
 
             shoppingCart.AddItem(request.ShoppingCartItemDto.ProductId, request.ShoppingCartItemDto.Quantity, request.ShoppingCartItemDto.Color, request.ShoppingCartItemDto.Price, request.ShoppingCartItemDto.ProductName);
 
-            await basketDbContext.SaveChangesAsync(cancellationToken);
+            await basketRepository.SaveChangeAsync(request.UserName,cancellationToken);
             return new AddItemIntoBasketResult(shoppingCart.Id);
         }
     }

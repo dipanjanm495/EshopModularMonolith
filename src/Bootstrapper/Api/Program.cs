@@ -22,6 +22,11 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
 builder.Services.AddCatalogModule(builder.Configuration).
                 AddOrderingModule(builder.Configuration).
                 AddBasketModule(builder.Configuration);

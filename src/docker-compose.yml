@@ -10,5 +10,8 @@ services:
       context: .
       dockerfile: Bootstrapper/Api/Dockerfile
 
+  distributedcache:
+    image: redis
+
 volumes:
   postgres_eshopdb:

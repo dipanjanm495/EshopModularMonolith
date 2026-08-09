@@ -1,6 +1,6 @@
 ﻿namespace Basket.Basket.Dtos;
 public record ShoppingCartDto(
     Guid Id,
-    string UserName,
+    string Username,
     List<ShoppingCartItemDto> Items
     );

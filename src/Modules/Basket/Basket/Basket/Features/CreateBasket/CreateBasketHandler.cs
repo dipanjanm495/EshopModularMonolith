@@ -1,6 +1,7 @@
 ﻿using Basket.Basket.Dtos;
 using Basket.Basket.Models;
 using Basket.Data;
+using Basket.Data.Repository;
 using FluentValidation;
 using Shared.CQRS;
 
@@ -18,23 +19,21 @@ namespace Basket.Basket.Features.CreateBasket
     {
         public CreateBasketCommandValidator()
         {
-            RuleFor(x => x.ShoppingCart.UserName).NotEmpty().WithMessage("UserName is required.");
+            RuleFor(x => x.ShoppingCart.Username).NotEmpty().WithMessage("UserName is required.");
         }
     }
-    internal class CreateBasketHandler(BasketDbContext dbContext) : ICommandHandler<CreateBasketCommand, CreateBasketResult>
+    internal class CreateBasketHandler(IBasketRepository basketRepository) : ICommandHandler<CreateBasketCommand, CreateBasketResult>
     {
         public async Task<CreateBasketResult> Handle(CreateBasketCommand command, CancellationToken cancellationToken)
         {
             var shoppingCart = CreateNewBasket(command.ShoppingCart);
-
-            dbContext.ShoppingCarts.Add(shoppingCart);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            await basketRepository.CreateBasket(shoppingCart,cancellationToken);
             return new CreateBasketResult(shoppingCart.Id);
         }
 
         private ShoppingCart CreateNewBasket(ShoppingCartDto shoppingCart)
         {
-            var newBasket = ShoppingCart.Create(new Guid(), shoppingCart.UserName);
+            var newBasket = ShoppingCart.Create(new Guid(), shoppingCart.Username);
 
             foreach (var item in shoppingCart.Items)
             {

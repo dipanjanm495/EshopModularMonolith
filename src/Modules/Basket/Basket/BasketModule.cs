@@ -1,4 +1,5 @@
 ﻿using Basket.Data;
+using Basket.Data.Repository;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ namespace Basket
     {
        public static IServiceCollection AddBasketModule(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.Decorate<IBasketRepository, CachedBasketRepository>();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             var connectionString = configuration.GetConnectionString("DatabaseConnection");
 
