@@ -1,5 +1,5 @@
 ﻿using Catalog.Data;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 
 namespace Catalog.Products.Features.DeleteProduct
 {

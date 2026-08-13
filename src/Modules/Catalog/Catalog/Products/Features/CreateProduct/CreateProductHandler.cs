@@ -1,9 +1,9 @@
-﻿using Catalog.Data;
-using Catalog.Products.Dtos;
+﻿using Catalog.Contracts.Products.Dtos;
+using Catalog.Data;
 using Catalog.Products.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 
 namespace Catalog.Products.Features.CreateProduct
 {

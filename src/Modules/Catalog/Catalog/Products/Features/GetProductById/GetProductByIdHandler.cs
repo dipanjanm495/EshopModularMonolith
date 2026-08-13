@@ -1,16 +1,12 @@
-﻿using Catalog.Data;
-using Catalog.Products.Dtos;
+﻿using Catalog.Contracts.Products.Dtos;
+using Catalog.Contracts.Products.Features.GetProductById;
+using Catalog.Data;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
-using System.Runtime.InteropServices;
+using Shared.Contracts.CQRS;
 
 namespace Catalog.Products.Features.GetProductById
 {
-
-    public record GetProductByIdQuery(Guid Id) : IQuery<GetProductByIdResult>;
-
-    public record GetProductByIdResult(ProductDto Product);
     internal class GetProductByIdHandler(CatalogDbContext dbContext) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
     {
         public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)

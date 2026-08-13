@@ -1,7 +1,7 @@
 ﻿using Basket.Data;
 using Basket.Data.Repository;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 
 namespace Basket.Basket.Features.DeleteBasket
 {

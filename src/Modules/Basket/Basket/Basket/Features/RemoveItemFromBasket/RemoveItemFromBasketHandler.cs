@@ -2,7 +2,7 @@
 using Basket.Data.Repository;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 
 namespace Basket.Basket.Features.RemoveItemFromBasket
 {
