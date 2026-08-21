@@ -8,13 +8,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Catalog.Contracts\Catalog.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\..\Shared.Messaging\Shared.Messaging.csproj" />
     <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Basket\EventHandlers\" />
     <Folder Include="Basket\Exceptions\" />
-    <Folder Include="Basket\Features\UpdateItemPriceInBasket\" />
   </ItemGroup>
 
 </Project>

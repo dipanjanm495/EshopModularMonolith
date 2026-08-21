@@ -4,6 +4,7 @@ using Serilog;
 using Shared.Behaviours;
 using Shared.Exceptions.Handler;
 using Shared.Extensions;
+using Shared.Messaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
+
+builder.Services.AddMassTransitWithAssemblies(builder.Configuration,catalogAssembly, basketAssembly);
 
 builder.Services.AddCatalogModule(builder.Configuration).
                 AddOrderingModule(builder.Configuration).

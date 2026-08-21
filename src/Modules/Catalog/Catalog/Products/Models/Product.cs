@@ -41,6 +41,7 @@ namespace Catalog.Products.Models
 
             if(Price != price)
             {
+                Price = price;
                 AddDomainEvent(new ProductPriceChangedEvent(this));
             }
         }
